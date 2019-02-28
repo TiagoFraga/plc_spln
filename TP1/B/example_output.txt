@@ -1,0 +1,24 @@
+rss
+└── channel
+    ├── title
+    ├── description
+    ├── link
+    ├── language
+    ├── pubdate
+    ├── image
+    │   ├── url
+    │   ├── title
+    │   └── link
+    ├── copyright
+    ├── atom10:link +
+    ├── feedburner:info
+    └── item +
+        ├── title
+        ├── description
+        ├── pubDate
+        ├── category
+        ├── link
+        ├── guid
+        ├── impresa:contentUri
+        └── media:content ?
+
