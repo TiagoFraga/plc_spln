@@ -4,14 +4,19 @@ import re
 
 
 
+# Função de limpeza de texto.
 def cleanText(texto):
+    # Substituí todos os números separados por vírgula por números separados por ponto
     texto = re.sub(r'(\d+),(\d+)',r'\1.\2',texto)
+    # Adiciona um espaço antes de vírgulas seguidas de números
     texto = re.sub(r'(\w+),|(\d+),', r'\1 , \2',texto)
+    # Adiciona um espaço antes de pontos seguidas de números
     texto = re.sub(r'(\d+)\. ', r'\1 .',texto)
+    # Adiciona um espaço antes de percentagens seguidas de números
     texto = re.sub(r'(\d+)%',r'\1 %',texto)
     return texto
 
-
+# Função que cria um dicionário com os números escritos no ficheiro números.txt, ex: dic_numeros['1'] = 'um'
 def criarDic():
     file = open('numeros.txt')
     dic_numeros = {}
@@ -22,10 +27,12 @@ def criarDic():
         dic_numeros[key]=value
     return dic_numeros
 
+#Construção do dicionário.
 dic_numeros = {}
 dic_numeros = criarDic()
 
 
+# Função que converte o número em extenso.
 def traduz(numero,dic_numeros):
     if numero in dic_numeros:
         return dic_numeros[numero]
@@ -58,6 +65,7 @@ def traduz(numero,dic_numeros):
                                 if temp[1] == '1':
                                     return dic_numeros[aux1] + ' e ' + dic_numeros[aux3]
                                 else:
+                                    #representar ex: 221
                                     return dic_numeros[aux1] + ' e ' + dic_numeros[aux2] + ' e ' + dic_numeros[temp[2]]
         else:
             if len(numero) == 4:
@@ -93,6 +101,7 @@ def traduz(numero,dic_numeros):
                                                 return dic_numeros[aux1] + ' ' + dic_numeros[aux2] + ' e ' + dic_numeros[aux3] + ' e ' + dic_numeros[temp[3]] 
                     
 
+# Função que lê o ficheiro, chama a função traduz e escreve o resultado final no ficheiro output.txt
 def numeroParaExtenso(filename,dic):
     file = open(filename)
     texto = file.read()
