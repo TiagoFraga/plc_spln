@@ -69,7 +69,6 @@ print(sentence_2.to_tagged_string())
 
 
 
-
 print("#####################################")
 print("##########  TAGGER    ###############")
 print("#####################################")
@@ -85,6 +84,19 @@ sentences = [Sentence(sent, use_tokenizer=True) for sent in split_single(text)]
 # predict tags for list of sentences
 tagger: SequenceTagger = SequenceTagger.load('ner')
 tagger.predict(sentences)
+
+for sentence in sentences:
+    print("###")
+    print(sentence.to_tagged_string())
+
+    for entity in sentence.get_spans('ner'):
+        print(entity)
+
+    print(sentence.to_dict(tag_type='ner'))
+
+
+
+
 
 
 
@@ -111,7 +123,7 @@ from flair.models import TextClassifier
 classifier = TextClassifier.load('en-sentiment')
 
 # example sentence
-sentence = Sentence('Porto losed. I am sad')
+sentence = Sentence('Porto wins. I am happy')
 
 # predict NER tags
 classifier.predict(sentence)

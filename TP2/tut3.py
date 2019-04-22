@@ -1,6 +1,6 @@
 from flair.embeddings import WordEmbeddings
 from flair.data import Sentence
-'''
+
 # init embedding
 glove_embedding = WordEmbeddings('glove')
 
@@ -18,8 +18,8 @@ for token in sentence:
 
 pt_embedding = WordEmbeddings('pt')
 
-'''
 
+print("#####################################")
 ############
 
 from flair.embeddings import CharacterEmbeddings
@@ -34,6 +34,7 @@ sentence = Sentence('The grass is green .')
 embedding.embed(sentence)
 
 
+print("#####################################")
 ###
 
 
@@ -50,7 +51,7 @@ embedding.embed(sentence)
 
 ###
 
-
+print("#####################################")
 
 from flair.embeddings import WordEmbeddings, CharacterEmbeddings
 
@@ -61,7 +62,7 @@ glove_embedding = WordEmbeddings('glove')
 character_embeddings = CharacterEmbeddings()
 
 
-
+print("#####################################")
 from flair.embeddings import StackedEmbeddings
 
 # now create the StackedEmbedding object that combines all embeddings
