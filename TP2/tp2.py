@@ -133,4 +133,28 @@ print(sentence.labels)
 
 
 
+print("#####################################")
+print("##########  EMOTIONS   ##############")
+print("#####################################")
+
+from flair.models import TextClassifier
+
+# load sentiment model
+classifier = TextClassifier.load('en-sentiment')
+
+# example sentence
+sentence = Sentence('Porto losed. I am sad')
+
+# predict NER tags
+classifier.predict(sentence)
+
+# print sentence with predicted labels
+print(sentence.labels)
+
+
+
+
+
+
+
 
