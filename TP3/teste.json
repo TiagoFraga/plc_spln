@@ -1,0 +1,67 @@
+[
+	{
+		"nome": "joao",
+        "tipo": "filho",
+        "dataNasc": "08-08-1996",
+        "dataMorte": "10-10-2100"
+    },
+    {
+		"nome": "damasio",
+        "tipo": "filho",
+        "dataNasc": "08-08-1996",
+        "dataMorte": "10-10-2100"
+	},
+	{
+		"nome": "jose",
+        "tipo": "pai",
+        "dataNasc": "08-08-1963",
+        "dataMorte": "10-10-2100",
+        "ePai": "joao"
+	},
+	{
+		"nome": "maria",
+        "tipo": "mae",
+        "dataNasc": "08-08-1963",
+        "dataMorte": "10-10-2100",
+        "eMae": "joao"
+    },
+    {
+        "nome": "jose",
+        "tipo": "avo_m",
+        "dataNasc": "08-08-1930",
+        "dataMorte": "10-10-2100",
+        "ePai": "jose",
+        "eAvo": "joao"
+    },
+    {
+        "nome": "maria antonia",
+        "tipo": "avo_f",
+        "dataNasc": "08-08-1930",
+        "dataMorte": "10-10-2100",
+        "eMae": "jose",
+        "eAvo": "joao"
+    },
+    {
+        "nome": "alberto",
+        "tipo": "avo_m",
+        "dataNasc": "08-08-1930",
+        "dataMorte": "10-10-2100",
+        "ePai": "maria",
+        "eAvo": "joao"
+    },
+    {
+        "nome": "ana",
+        "tipo": "avo_f",
+        "dataNasc": "08-08-1930",
+        "dataMorte": "10-10-2100",
+        "eMae": "maria",
+        "eAvo": "joao"
+    },
+    {
+		"nome": "joaquim",
+        "tipo": "tio",
+        "dataNasc": "08-08-1963",
+        "dataMorte": "10-10-2100",
+        "eIrmao": "jose"
+    }
+]
