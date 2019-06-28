@@ -1,45 +1,57 @@
 [
-	{
-		"nome": "joao",
+    {
+        "nome": "joao",
         "tipo": "filho",
         "dataNasc": "08-08-1996",
         "dataMorte": "10-10-2100"
     },
     {
-		"nome": "damasio",
+        "nome": "damasio",
         "tipo": "filho",
         "dataNasc": "08-08-1996",
         "dataMorte": "10-10-2100"
-	},
-	{
-		"nome": "jose",
+    },
+    {
+        "nome": "jose",
         "tipo": "pai",
         "dataNasc": "08-08-1963",
         "dataMorte": "10-10-2100",
-        "ePai": "joao"
-	},
-	{
-		"nome": "maria",
+        "ePai": [
+            "joao"
+        ]
+    },
+    {
+        "nome": "maria",
         "tipo": "mae",
         "dataNasc": "08-08-1963",
         "dataMorte": "10-10-2100",
-        "eMae": "joao"
+        "eMae": [
+            "joao"
+        ]
     },
     {
         "nome": "jose",
         "tipo": "avo_m",
         "dataNasc": "08-08-1930",
         "dataMorte": "10-10-2100",
-        "ePai": "jose",
-        "eAvo": "joao"
+        "ePai": [
+            "jose"
+        ],
+        "eAvo": [
+            "joao"
+        ]
     },
     {
         "nome": "maria antonia",
         "tipo": "avo_f",
         "dataNasc": "08-08-1930",
         "dataMorte": "10-10-2100",
-        "eMae": "jose",
-        "eAvo": "joao"
+        "eMae": [
+            "jose"
+        ],
+        "eAvo": [
+            "joao"
+        ]
     },
     {
         "nome": "alberto",
@@ -58,10 +70,51 @@
         "eAvo": "joao"
     },
     {
-		"nome": "joaquim",
-        "tipo": "tio",
-        "dataNasc": "08-08-1963",
+        "tipo": "filho",
+        "nome": "tobias",
+        "dataNasc": "10-10-2010",
+        "dataMorte": "10-10-2100"
+    },
+    {
+        "tipo": "pai",
+        "nome": "serafim",
+        "dataNasc": "10-10-1980",
         "dataMorte": "10-10-2100",
-        "eIrmao": "jose"
+        "ePai": [
+            "tobias"
+        ]
+    },
+    {
+        "tipo": "mae",
+        "nome": "rosa",
+        "dataNasc": "10-10-1980",
+        "dataMorte": "10-10-2100",
+        "eMae": [
+            "tobias"
+        ]
+    },
+    {
+        "tipo": "avo_m",
+        "nome": "tiago",
+        "dataNasc": "10-10-1970",
+        "dataMorte": "10-10-2100",
+        "ePai": [
+            "serafim"
+        ],
+        "eAvo": [
+            "tobias"
+        ]
+    },
+    {
+        "tipo": "avo_f",
+        "nome": "rosas",
+        "dataNasc": "10-10-1940",
+        "dataMorte": "10-10-2100",
+        "eMae": [
+            "rosa"
+        ],
+        "eAvo": [
+            "tobias"
+        ]
     }
 ]

@@ -2,8 +2,8 @@ import os
 
 def showMenuPrincipal():
     print('\n\n################# Menu #################\n\n')
-    print('1 - Python-Constraint')
-    print('2 - Prolog')
+    print('1 - Obter Soluções')
+    print('2 - Adicionar')
     print('3 - Sair\n\n')
 
 def showMenu_Inicializacao():
@@ -31,13 +31,5 @@ def showMenu_Adicionar():
     print('3 - Mae')
     print('4 - Avô')
     print('5 - Avó')
-    print('6 - Tio')
-    print('7 - Voltar \n\n')
-    print('Ex: 1,2,3 ou 4 ou 5.\n')
+    print('6 - Voltar \n\n')
 
-
-def showMenu_Prolog():
-    print('\n\n################# Menu #################\n\n')
-    print('1 - Interrogar Base de Conhecimento')
-    print('2 - Adicionar a Base de Conhecimento')
-    print('3 - Sair\n\n')

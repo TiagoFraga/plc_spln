@@ -2,6 +2,65 @@ from constraint import *
 import constraintFunctions as const
 import json
 
+# Funções de Adicionar
+
+def addFilho(filho):
+    file_open = open('teste.json','r')
+    data = json.load(file_open)
+    if filho in data:
+        return False
+    else:
+        data.append(filho)
+        with open('teste.json', 'w') as outfile:  
+            json.dump(data, outfile)
+        return True
+
+def addPai(pai):
+    file_open = open('teste.json','r')
+    data = json.load(file_open)
+    if pai in data:
+        return False
+    else:
+        data.append(pai)
+        with open('teste.json', 'w') as outfile:  
+            json.dump(data, outfile)
+        return True
+
+def addMae(mae):
+    file_open = open('teste.json','r')
+    data = json.load(file_open)
+    if mae in data:
+        return False
+    else:
+        data.append(mae)
+        with open('teste.json', 'w') as outfile:  
+            json.dump(data, outfile)
+        return True
+
+def addAvo_M(avo):
+    file_open = open('teste.json','r')
+    data = json.load(file_open)
+    if avo in data:
+        return False
+    else:
+        data.append(avo)
+        with open('teste.json', 'w') as outfile:  
+            json.dump(data, outfile)
+        return True
+
+def addAvo_F(avo_f):
+    file_open = open('teste.json','r')
+    data = json.load(file_open)
+    if avo_f in data:
+        return False
+    else:
+        data.append(avo_f)
+        with open('teste.json', 'w') as outfile:  
+            json.dump(data, outfile)
+        return True
+
+
+
 def carregarVariaveis(problem):
     file_open = open('teste.json','r')
     data = json.load(file_open)

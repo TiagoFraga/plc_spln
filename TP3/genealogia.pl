@@ -18,18 +18,19 @@ cleanup_db :-
 
 :- set_prolog_flag( discontiguous_warnings,off ).
 :- set_prolog_flag( single_var_warnings,off ).
-:- set_prolog_flag( unknown,fail ).
+
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % SICStus PROLOG: definicoes iniciais
 
-
+go :-
+    call_cleanup(go_with_clean_db, cleanup_db).
 
 :- op( 900,xfy,'::' ).
-:- dynamic filho/2.
-:- dynamic pai/2.
-:- dynamic neto/2.
-:- dynamic avo/2.
+:- dynamic filho/1.
+:- dynamic pai/1.
+:- dynamic neto/1.
+:- dynamic avo/1.
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
