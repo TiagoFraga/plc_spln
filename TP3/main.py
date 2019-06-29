@@ -21,7 +21,7 @@ def main():
                             flags = [int(x) for x in flags]
                             print(base.get_solver_default(flags))
                         else:
-                            if int(opcao3) == 6:
+                            if int(opcao3) == 10:
                                     break
                             else:
                                 num = int(opcao3)    
@@ -37,7 +37,7 @@ def main():
                                 flags = [int(x) for x in flags]
                                 print(base.get_backtracking_solver(flags))
                             else:
-                                if int(opcao3) == 6:
+                                if int(opcao3) == 10:
                                     break
                                 else:
                                     num = int(opcao3)    
@@ -53,7 +53,7 @@ def main():
                                     flags = [int(x) for x in flags]
                                     print(base.get_min_conflit_solver(flags))
                                 else:
-                                    if int(opcao3) == 6:
+                                    if int(opcao3) == 10:
                                         break
                                     else:
                                         num = int(opcao3)    
@@ -69,7 +69,7 @@ def main():
                                         flags = [int(x) for x in flags]
                                         print(base.get_recursive_backtraking_solver(flags))
                                     else:
-                                        if int(opcao3) == 6:
+                                        if int(opcao3) == 10:
                                             break
                                         else:
                                             num = int(opcao3)    

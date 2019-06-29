@@ -69,7 +69,6 @@ def carregarVariaveis(problem):
     listaMae = []
     listaAvoM = []
     listaAvoF = []
-    listaTios = []
     for d in data:
         if d["tipo"] == "filho":
             aux = {
@@ -116,21 +115,11 @@ def carregarVariaveis(problem):
                                 "eAvo": d["eAvo"]
                             }
                             listaAvoF.append(aux)
-                        else:
-                            if d["tipo"] == "tio":
-                                aux = {
-                                    "nome" : d["nome"],
-                                    "dataNasc": d["dataNasc"],
-                                    "dataMorte": d["dataMorte"],
-                                    "eIrmao": d["eIrmao"],
-                                }
-                                listaTios.append(aux)
     problem.addVariable("filho", listaFilho)
     problem.addVariable("pai", listaPai)
     problem.addVariable("mae", listaMae)
     problem.addVariable("avo_m", listaAvoM)
     problem.addVariable("avo_f",listaAvoF)
-    problem.addVariable("tio",listaTios)
 
 
 # Solvers
@@ -139,29 +128,41 @@ def get_solver_default(flags):
 
     carregarVariaveis(problem)
 
-    # 1 - Intervalo de Nascimento entre Pai e Filho
-    print(flags)
-    if 1 in flags or 4 in flags:
-        problem.addConstraint(lambda filho, pai: int(filho["dataNasc"].split('-')[2]) > int(pai["dataNasc"].split('-')[2]) + 10,("filho", "pai"))
-        problem.addConstraint(const.dataNasc_avo_m_filho,("avo_m", "pai","mae"))
-        problem.addConstraint(const.intervalo_avo_m_tio,("avo_m","pai","mae","tio"))
+    # 1 - Restrição entre diferença de Datas de Nascimento entre Pai e Filho
+    if 1 in flags or 8 in flags:
+        problem.addConstraint(const.dataNascimento_pai_filho,("pai","filho"))
+        problem.addConstraint(const.dataNascimento_avo_m_filho,("avo_m", "pai","mae"))
 
     # 2 - Intervalo de Nascimento entre Mae e Filho
-    if 2 in flags or 4 in flags:
-        problem.addConstraint(const.intervalo_mae_filho,("mae", "filho"))
-        problem.addConstraint(const.intervalo_avo_f_pai_mae,("avo_f", "pai","mae"))
-        problem.addConstraint(const.intervalo_avo_f_tio,("avo_f","pai","mae","tio"))
+    if 2 in flags or 8 in flags:
+        problem.addConstraint(const.dataNascimento_mae_filho,("mae", "filho"))
+        problem.addConstraint(const.dataNascimento_avo_f_filho,("avo_f", "pai","mae"))
     
     # 3 - Filho nasce antes da Data de Morte
-    if 3 in flags or 4 in flags:
-        problem.addConstraint(const.dataMorte_filho_pais,("filho","mae","pai"))
-        problem.addConstraint(const.dataMorte_avo_mae,("avo_m","avo_f","mae"))
-        problem.addConstraint(const.dataMorte_avo_pai,("avo_m","avo_f","pai"))
+    if 3 in flags or 8 in flags:
+        problem.addConstraint(const.dataMorte_pai_filho,("pai","filho"))
+        problem.addConstraint(const.dataMorte_mae_filho,("mae","filho"))
+        problem.addConstraint(const.dataMorte_avo_m_filho,("avo_m","pai","mae"))
+        problem.addConstraint(const.dataMorte_avo_f_filho,("avo_f","pai","mae"))
 
-    # Não faz sentido
+    # 4 - Avo - Neto
+    if 4 in flags or 8 in flags:
+        problem.addConstraint(const.avo_neto,("avo_m","avo_f","filho"))
 
-    # problem.addConstraint(const.avo_m_neto,("avo_m","mae","pai","filho"))
-    # problem.addConstraint(const.avo_f_neto,("avo_f","mae","pai","filho"))
+    # 5 - Pai - Filho
+    if 5 in flags or 8 in flags:
+        problem.addConstraint(const.pai_filho,("pai","filho"))
+        problem.addConstraint(const.avo_m_filho,("avo_m","pai","mae"))
+
+    # 6 - Mae - Filho
+    if 6 in flags or 8 in flags:
+        problem.addConstraint(const.mae_filho,("mae","filho"))
+        problem.addConstraint(const.avo_f_filho,("avo_f","pai","mae"))
+    
+    # 7 - Casados 
+    if 7 in flags or 8 in flags:
+        problem.addConstraint(const.casado_pai_mae,("pai","mae"))
+        problem.addConstraint(const.casado_avo_m_avo_f,("avo_m","avo_f"))
 
     results = problem.getSolutions()
     if results == []:
@@ -173,30 +174,42 @@ def get_backtracking_solver(flags):
     problem = Problem(BacktrackingSolver())
 
     carregarVariaveis(problem)
-
-    # 1 - Intervalo de Nascimento entre Pai e Filho
     
-    if 1 in flags or 4 in flags:
-        problem.addConstraint(lambda filho, pai: int(filho["dataNasc"].split('-')[2]) > int(pai["dataNasc"].split('-')[2]) + 10,("filho", "pai"))
-        problem.addConstraint(const.dataNasc_avo_m_filho,("avo_m", "pai","mae"))
-        problem.addConstraint(const.intervalo_avo_m_tio,("avo_m","pai","mae","tio"))
+    # 1 - Restrição entre diferença de Datas de Nascimento entre Pai e Filho
+    if 1 in flags or 8 in flags:
+        problem.addConstraint(const.dataNascimento_pai_filho,("pai","filho"))
+        problem.addConstraint(const.dataNascimento_avo_m_filho,("avo_m", "pai","mae"))
 
     # 2 - Intervalo de Nascimento entre Mae e Filho
-    if 2 in flags or 4 in flags:
-        problem.addConstraint(const.intervalo_mae_filho,("mae", "filho"))
-        problem.addConstraint(const.intervalo_avo_f_pai_mae,("avo_f", "pai","mae"))
-        problem.addConstraint(const.intervalo_avo_f_tio,("avo_f","pai","mae","tio"))
+    if 2 in flags or 8 in flags:
+        problem.addConstraint(const.dataNascimento_mae_filho,("mae", "filho"))
+        problem.addConstraint(const.dataNascimento_avo_f_filho,("avo_f", "pai","mae"))
     
     # 3 - Filho nasce antes da Data de Morte
-    if 3 in flags or 4 in flags:
-        problem.addConstraint(const.dataMorte_filho_pais,("filho","mae","pai"))
-        problem.addConstraint(const.dataMorte_avo_mae,("avo_m","avo_f","mae"))
-        problem.addConstraint(const.dataMorte_avo_pai,("avo_m","avo_f","pai"))
+    if 3 in flags or 8 in flags:
+        problem.addConstraint(const.dataMorte_pai_filho,("pai","filho"))
+        problem.addConstraint(const.dataMorte_mae_filho,("mae","filho"))
+        problem.addConstraint(const.dataMorte_avo_m_filho,("avo_m","pai","mae"))
+        problem.addConstraint(const.dataMorte_avo_f_filho,("avo_f","pai","mae"))
 
-    # Não faz sentido
+    # 4 - Avo - Neto
+    if 4 in flags or 8 in flags:
+        problem.addConstraint(const.avo_neto,("avo_m","avo_f","filho"))
 
-    # problem.addConstraint(const.avo_m_neto,("avo_m","mae","pai","filho"))
-    # problem.addConstraint(const.avo_f_neto,("avo_f","mae","pai","filho"))
+    # 5 - Pai - Filho
+    if 5 in flags or 8 in flags:
+        problem.addConstraint(const.pai_filho,("pai","filho"))
+        problem.addConstraint(const.avo_m_filho,("avo_m","pai","mae"))
+
+    # 6 - Mae - Filho
+    if 6 in flags or 8 in flags:
+        problem.addConstraint(const.mae_filho,("mae","filho"))
+        problem.addConstraint(const.avo_f_filho,("avo_f","pai","mae"))
+    
+    # 7 - Casados 
+    if 7 in flags or 8 in flags:
+        problem.addConstraint(const.casado_pai_mae,("pai","mae"))
+        problem.addConstraint(const.casado_avo_m_avo_f,("avo_m","avo_f"))
     
     results = problem.getSolutions()
     if results == []:
@@ -209,29 +222,41 @@ def get_min_conflit_solver(flags):
 
     carregarVariaveis(problem)
 
-    # 1 - Intervalo de Nascimento entre Pai e Filho
-    
-    if 1 in flags or 4 in flags:
-        problem.addConstraint(lambda filho, pai: int(filho["dataNasc"].split('-')[2]) > int(pai["dataNasc"].split('-')[2]) + 10,("filho", "pai"))
-        problem.addConstraint(const.dataNasc_avo_m_filho,("avo_m", "pai","mae"))
-        problem.addConstraint(const.intervalo_avo_m_tio,("avo_m","pai","mae","tio"))
+     # 1 - Restrição entre diferença de Datas de Nascimento entre Pai e Filho
+    if 1 in flags or 8 in flags:
+        problem.addConstraint(const.dataNascimento_pai_filho,("pai","filho"))
+        problem.addConstraint(const.dataNascimento_avo_m_filho,("avo_m", "pai","mae"))
 
     # 2 - Intervalo de Nascimento entre Mae e Filho
-    if 2 in flags or 4 in flags:
-        problem.addConstraint(const.intervalo_mae_filho,("mae", "filho"))
-        problem.addConstraint(const.intervalo_avo_f_pai_mae,("avo_f", "pai","mae"))
-        problem.addConstraint(const.intervalo_avo_f_tio,("avo_f","pai","mae","tio"))
+    if 2 in flags or 8 in flags:
+        problem.addConstraint(const.dataNascimento_mae_filho,("mae", "filho"))
+        problem.addConstraint(const.dataNascimento_avo_f_filho,("avo_f", "pai","mae"))
     
     # 3 - Filho nasce antes da Data de Morte
-    if 3 in flags or 4 in flags:
-        problem.addConstraint(const.dataMorte_filho_pais,("filho","mae","pai"))
-        problem.addConstraint(const.dataMorte_avo_mae,("avo_m","avo_f","mae"))
-        problem.addConstraint(const.dataMorte_avo_pai,("avo_m","avo_f","pai"))
+    if 3 in flags or 8 in flags:
+        problem.addConstraint(const.dataMorte_pai_filho,("pai","filho"))
+        problem.addConstraint(const.dataMorte_mae_filho,("mae","filho"))
+        problem.addConstraint(const.dataMorte_avo_m_filho,("avo_m","pai","mae"))
+        problem.addConstraint(const.dataMorte_avo_f_filho,("avo_f","pai","mae"))
 
-    # Não faz sentido
+    # 4 - Avo - Neto
+    if 4 in flags or 8 in flags:
+        problem.addConstraint(const.avo_neto,("avo_m","avo_f","filho"))
 
-    # problem.addConstraint(const.avo_m_neto,("avo_m","mae","pai","filho"))
-    # problem.addConstraint(const.avo_f_neto,("avo_f","mae","pai","filho"))
+    # 5 - Pai - Filho
+    if 5 in flags or 8 in flags:
+        problem.addConstraint(const.pai_filho,("pai","filho"))
+        problem.addConstraint(const.avo_m_filho,("avo_m","pai","mae"))
+
+    # 6 - Mae - Filho
+    if 6 in flags or 8 in flags:
+        problem.addConstraint(const.mae_filho,("mae","filho"))
+        problem.addConstraint(const.avo_f_filho,("avo_f","pai","mae"))
+    
+    # 7 - Casados 
+    if 7 in flags or 8 in flags:
+        problem.addConstraint(const.casado_pai_mae,("pai","mae"))
+        problem.addConstraint(const.casado_avo_m_avo_f,("avo_m","avo_f"))
 
     results = problem.getSolution()
     if results == None:
@@ -244,29 +269,41 @@ def get_recursive_backtraking_solver(flags):
 
     carregarVariaveis(problem)
 
-    # 1 - Intervalo de Nascimento entre Pai e Filho
-    
-    if 1 in flags or 4 in flags:
-        problem.addConstraint(lambda filho, pai: int(filho["dataNasc"].split('-')[2]) > int(pai["dataNasc"].split('-')[2]) + 10,("filho", "pai"))
-        problem.addConstraint(const.dataNasc_avo_m_filho,("avo_m", "pai","mae"))
-        problem.addConstraint(const.intervalo_avo_m_tio,("avo_m","pai","mae","tio"))
+    # 1 - Restrição entre diferença de Datas de Nascimento entre Pai e Filho
+    if 1 in flags or 8 in flags:
+        problem.addConstraint(const.dataNascimento_pai_filho,("pai","filho"))
+        problem.addConstraint(const.dataNascimento_avo_m_filho,("avo_m", "pai","mae"))
 
     # 2 - Intervalo de Nascimento entre Mae e Filho
-    if 2 in flags or 4 in flags:
-        problem.addConstraint(const.intervalo_mae_filho,("mae", "filho"))
-        problem.addConstraint(const.intervalo_avo_f_pai_mae,("avo_f", "pai","mae"))
-        problem.addConstraint(const.intervalo_avo_f_tio,("avo_f","pai","mae","tio"))
+    if 2 in flags or 8 in flags:
+        problem.addConstraint(const.dataNascimento_mae_filho,("mae", "filho"))
+        problem.addConstraint(const.dataNascimento_avo_f_filho,("avo_f", "pai","mae"))
     
     # 3 - Filho nasce antes da Data de Morte
-    if 3 in flags or 4 in flags:
-        problem.addConstraint(const.dataMorte_filho_pais,("filho","mae","pai"))
-        problem.addConstraint(const.dataMorte_avo_mae,("avo_m","avo_f","mae"))
-        problem.addConstraint(const.dataMorte_avo_pai,("avo_m","avo_f","pai"))
+    if 3 in flags or 8 in flags:
+        problem.addConstraint(const.dataMorte_pai_filho,("pai","filho"))
+        problem.addConstraint(const.dataMorte_mae_filho,("mae","filho"))
+        problem.addConstraint(const.dataMorte_avo_m_filho,("avo_m","pai","mae"))
+        problem.addConstraint(const.dataMorte_avo_f_filho,("avo_f","pai","mae"))
 
-    # Não faz sentido
+    # 4 - Avo - Neto
+    if 4 in flags or 8 in flags:
+        problem.addConstraint(const.avo_neto,("avo_m","avo_f","filho"))
 
-    # problem.addConstraint(const.avo_m_neto,("avo_m","mae","pai","filho"))
-    # problem.addConstraint(const.avo_f_neto,("avo_f","mae","pai","filho"))
+    # 5 - Pai - Filho
+    if 5 in flags or 8 in flags:
+        problem.addConstraint(const.pai_filho,("pai","filho"))
+        problem.addConstraint(const.avo_m_filho,("avo_m","pai","mae"))
+
+    # 6 - Mae - Filho
+    if 6 in flags or 8 in flags:
+        problem.addConstraint(const.mae_filho,("mae","filho"))
+        problem.addConstraint(const.avo_f_filho,("avo_f","pai","mae"))
+    
+    # 7 - Casados 
+    if 7 in flags or 8 in flags:
+        problem.addConstraint(const.casado_pai_mae,("pai","mae"))
+        problem.addConstraint(const.casado_avo_m_avo_f,("avo_m","avo_f"))
 
     results = problem.getSolutions()
     if results == []:
